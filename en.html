@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Reunion Dinner</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Pinyon+Script&family=EB+Garamond:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F6F1EA; --surface:#FFFDF9; --ink:#3B3330; --muted:#857669;
+  --accent:#9C7451; --accent-ink:#FFFDF9; --soft:#EFE5D8; --line:#E3D7C8;
+  --ok:#5E7A5A; --warn:#A8553F;
+  --serif:"Cormorant Garamond",serif;
+  --tc:"EB Garamond",Georgia,serif;
+  --script:"Pinyon Script",cursive;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#1E1A17; --surface:#29231F; --ink:#F1E9DF; --muted:#B3A597;
+    --accent:#D2A77F; --accent-ink:#1E1A17; --soft:#3A3029; --line:#41372F;
+    --ok:#9DBE97; --warn:#E39A84;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#1E1A17; --surface:#29231F; --ink:#F1E9DF; --muted:#B3A597;
+  --accent:#D2A77F; --accent-ink:#1E1A17; --soft:#3A3029; --line:#41372F;
+  --ok:#9DBE97; --warn:#E39A84;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--tc);font-variant-numeric:lining-nums;line-height:1.7;-webkit-font-smoothing:antialiased}
+.wrap{max-width:520px;margin:0 auto;padding:0 16px 56px}
+.demo{background:var(--soft);color:var(--muted);font-size:13px;text-align:center;padding:8px 16px}
+.demo button{font:inherit;color:var(--accent);background:none;border:0;text-decoration:underline;cursor:pointer;padding:0 4px}
+
+/* hero */
+.hero{text-align:center;padding:48px 0 28px}
+.mono{font-family:var(--script);font-size:56px;line-height:1;color:var(--accent)}
+.eyebrow{font-family:var(--serif);letter-spacing:.32em;text-transform:uppercase;font-size:13px;color:var(--muted);margin-top:14px}
+.hero h1{font-family:var(--serif);font-weight:500;font-size:34px;line-height:1.2;margin:6px 0 4px}
+.hero p{margin:10px auto 0;max-width:30em;color:var(--muted);font-size:15px}
+.sign{font-family:var(--script);font-size:30px;color:var(--accent);margin-top:8px}
+.divider{display:flex;align-items:center;gap:12px;color:var(--accent);margin:22px auto 0;max-width:220px}
+.divider::before,.divider::after{content:"";flex:1;height:1px;background:var(--line)}
+
+/* info card */
+.info{display:grid;grid-template-columns:1fr 1fr 1fr;border:1px solid var(--line);border-radius:14px;background:var(--surface);overflow:hidden}
+.info>div{padding:14px 8px;text-align:center}
+.info>div+div{border-left:1px solid var(--line)}
+.info .k{font-family:var(--serif);font-size:12px;letter-spacing:.2em;color:var(--muted);text-transform:uppercase}
+.info .v{font-size:16px;font-weight:600;margin-top:2px}
+.links{display:flex;gap:10px;justify-content:center;margin:14px 0 0;flex-wrap:wrap}
+.links a{font-size:14px;color:var(--accent);text-decoration:none;border-bottom:1px solid currentColor}
+.deadline{text-align:center;color:var(--muted);font-size:14px;margin-top:14px}
+
+/* form */
+.card{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:24px 20px;margin-top:28px}
+.card h2{font-family:var(--serif);font-weight:500;font-size:26px;text-align:center;margin:0 0 4px;letter-spacing:.06em}
+.card .sub{text-align:center;color:var(--muted);font-size:14px;margin:0 0 18px}
+.field{margin-top:18px}
+.field>label,.field>.lab{display:block;font-size:15px;font-weight:600;margin-bottom:8px}
+.req{color:var(--accent);margin-left:2px}
+.hint{font-weight:400;color:var(--muted);font-size:13px;margin-left:6px}
+input[type=text],input[type=tel],textarea{width:100%;font:inherit;font-size:16px;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:12px 14px;outline:none;transition:border-color .15s}
+input:focus,textarea:focus{border-color:var(--accent)}
+textarea{min-height:84px;resize:vertical}
+.seg{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.seg button{font:inherit;font-size:15px;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:14px 8px;cursor:pointer;transition:all .15s}
+.seg button[aria-pressed=true]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.seg small{display:block;font-size:12px;opacity:.75}
+.stepper{display:flex;align-items:center;gap:0;border:1px solid var(--line);border-radius:12px;width:max-content;overflow:hidden;background:var(--bg)}
+.stepper button{font:inherit;font-size:22px;width:48px;height:46px;border:0;background:none;color:var(--accent);cursor:pointer}
+.stepper button:disabled{color:var(--line);cursor:default}
+.stepper output{min-width:56px;text-align:center;font-size:18px;font-weight:600}
+.row2{display:flex;gap:24px;flex-wrap:wrap}
+.hidden{display:none!important}
+.err{color:var(--warn);font-size:14px;margin-top:14px;text-align:center;min-height:1em}
+.submit{display:block;width:100%;margin-top:22px;font:inherit;font-size:17px;letter-spacing:.1em;padding:15px;border:0;border-radius:12px;background:var(--accent);color:var(--accent-ink);cursor:pointer}
+.submit:disabled{opacity:.6;cursor:wait}
+
+/* thanks */
+.thanks{text-align:center}
+.thanks .mono{font-size:44px}
+.summary{margin:16px 0 0;padding:14px 16px;background:var(--bg);border-radius:12px;text-align:left;font-size:15px}
+.summary div{display:flex;justify-content:space-between;gap:12px;padding:3px 0}
+.summary span:first-child{color:var(--muted)}
+.ghost{font:inherit;font-size:15px;color:var(--accent);background:none;border:1px solid var(--accent);border-radius:12px;padding:11px 18px;margin-top:18px;cursor:pointer}
+
+/* stats */
+.tiles{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:6px}
+.tile{background:var(--bg);border-radius:12px;padding:14px}
+.tile .n{font-family:var(--serif);font-size:38px;line-height:1;font-weight:600;color:var(--ink)}
+.tile .l{font-size:13px;color:var(--muted);margin-top:6px}
+.tile.main{grid-column:1/-1;background:var(--accent);color:var(--accent-ink)}
+.tile.main .n,.tile.main .l{color:var(--accent-ink)}
+.list{margin-top:22px}
+.list h3{font-size:15px;margin:0 0 6px;display:flex;justify-content:space-between}
+.list h3 span{color:var(--muted);font-weight:400}
+.person{border-top:1px solid var(--line);padding:10px 0;font-size:15px}
+.person .top{display:flex;justify-content:space-between;gap:10px}
+.person .meta{color:var(--muted);font-size:13px}
+.empty{color:var(--muted);font-size:14px;padding:10px 0;border-top:1px solid var(--line)}
+.toolbar{display:flex;justify-content:space-between;align-items:center;margin-top:16px;color:var(--muted);font-size:13px}
+.toolbar button{font:inherit;font-size:13px;color:var(--accent);background:none;border:0;cursor:pointer}
+footer{text-align:center;color:var(--muted);font-size:13px;margin-top:36px}
+footer .mono{font-size:30px}
+</style>
+</head>
+<body>
+<div id="demoBar" class="demo hidden">Preview mode: answers stay on this device only.
+  <button type="button" data-go="form">Form</button>·<button type="button" data-go="stats">Stats</button>
+</div>
+
+<div class="wrap">
+  <header class="hero">
+    <div class="mono">W &amp; M</div>
+    <div class="eyebrow">Reunion Dinner</div>
+    <h1>The Day After</h1>
+    <p>Thank you for celebrating our big day with us. The next evening, we would love to gather again for a relaxed dinner and catch up. We hope to see you there!</p>
+    <div class="divider">✦</div>
+  </header>
+
+  <section class="info" aria-label="Event details">
+    <div><div class="k">Date</div><div class="v" id="infoDate"></div></div>
+    <div><div class="k">Time</div><div class="v" id="infoTime"></div></div>
+    <div><div class="k">Place</div><div class="v" id="infoPlace"></div></div>
+  </section>
+  <div class="links">
+    <a id="mapLink" target="_blank" rel="noopener">View map</a>
+    <a id="calLink" target="_blank" rel="noopener">Add to Google Calendar</a>
+  </div>
+  <div class="deadline" id="deadline"></div>
+
+  <!-- RSVP form -->
+  <section class="card" id="formView">
+    <h2>RSVP</h2>
+    <p class="sub">Kindly let us know if you can join. Submitting again under the same name updates your reply.</p>
+    <form id="rsvp" novalidate>
+      <div class="field">
+        <label for="name">Name<span class="req">*</span></label>
+        <input type="text" id="name" maxlength="40" autocomplete="name" placeholder="The name we know you by">
+      </div>
+      <div class="field">
+        <span class="lab">Will you join us?<span class="req">*</span></span>
+        <div class="seg" id="attend">
+          <button type="button" data-v="yes" aria-pressed="false">Joyfully accept<small>Count me in</small></button>
+          <button type="button" data-v="no" aria-pressed="false">Regretfully decline<small>Can't make it</small></button>
+        </div>
+      </div>
+      <div id="yesFields" class="hidden">
+        <div class="field row2">
+          <div>
+            <span class="lab">Number of guests<span class="hint">including you</span></span>
+            <div class="stepper" data-for="party">
+              <button type="button" data-d="-1" aria-label="Decrease">−</button><output id="party">1</output><button type="button" data-d="1" aria-label="Increase">+</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="err" id="err" role="alert"></div>
+      <button class="submit" id="submitBtn" type="submit">Send RSVP</button>
+    </form>
+  </section>
+
+  <!-- thank you -->
+  <section class="card thanks hidden" id="thanksView">
+    <div class="mono">Thank you</div>
+    <h2 id="thanksTitle" style="font-size:22px;margin-top:6px"></h2>
+    <p class="sub" id="thanksSub"></p>
+    <div class="summary" id="summary"></div>
+    <button class="ghost" type="button" id="editBtn">Change my reply</button>
+  </section>
+
+  <!-- stats -->
+  <section class="card hidden" id="statsView">
+    <h2>Guest Summary</h2>
+    <p class="sub">Password required</p>
+    <form id="keyForm" class="hidden">
+      <div class="field"><label for="key">Password</label><input type="text" id="key" autocomplete="off"></div>
+      <div class="err" id="keyErr" role="alert"></div>
+      <button class="submit" type="submit">View</button>
+    </form>
+    <div id="statsBody" class="hidden">
+      <div class="tiles">
+        <div class="tile main"><div class="n" id="sPeople">0</div><div class="l">Total guests attending</div></div>
+        <div class="tile"><div class="n" id="sGroups">0</div><div class="l">Accepted replies</div></div>
+        <div class="tile"><div class="n" id="sNo">0</div><div class="l">Declined</div></div>
+      </div>
+      <div class="toolbar"><span id="sUpdated"></span><button type="button" id="refreshBtn">Refresh</button></div>
+      <div class="list"><h3>Attending <span id="yesCount"></span></h3><div id="yesList"></div></div>
+      <div class="list"><h3>Declined <span id="noCount"></span></h3><div id="noList"></div></div>
+    </div>
+  </section>
+
+  <footer><div class="mono">W &amp; M</div>Webb &amp; Maggy</footer>
+</div>
+
+<script src="config.js"></script>
+<script>
+/* ===== Event settings: edit here ===== */
+var EVENT = {
+  dateText: "Sun, Jan 31",
+  timeText: "7:30 PM",
+  place: "上吉燒肉",
+  mapQuery: "上吉燒肉 一店",
+  deadline: "December 31, 2026",           // RSVP deadline
+  maxParty: 30,                     // safety cap; party size is unlimited
+  calStart: "20270131T113000Z",     // 7:30 PM Taiwan time = 11:30 UTC
+  calEnd:   "20270131T143000Z"
+};
+/* ======================================== */
+
+var $ = function(id){ return document.getElementById(id); };
+var API = (typeof window.RSVP_API === "string" && window.RSVP_API) || "";
+var live = !!API;
+function call(url, opts){
+  return fetch(url, opts).then(function(r){ return r.json(); }).then(function(j){
+    if (!j || !j.ok) throw new Error((j && j.error) || "error");
+    return j;
+  });
+}
+var state = { attend: null, party: 1 };
+var statsKey = "";
+
+// ---- info ----
+$("infoDate").textContent = EVENT.dateText;
+$("infoTime").textContent = EVENT.timeText;
+$("infoPlace").textContent = EVENT.place;
+$("deadline").textContent = "Kindly reply by " + EVENT.deadline;
+$("mapLink").href = "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(EVENT.mapQuery);
+$("calLink").href = "https://calendar.google.com/calendar/render?action=TEMPLATE&text=" +
+  encodeURIComponent("Webb & Maggy Reunion Dinner") + "&dates=" + EVENT.calStart + "/" + EVENT.calEnd +
+  "&location=" + encodeURIComponent(EVENT.mapQuery);
+
+// ---- backend (Apps Script or local demo) ----
+var DEMO_KEY = "wm-rsvp-demo-en";
+function demoLoad(){ try { return JSON.parse(localStorage.getItem(DEMO_KEY)) || []; } catch(e){ return []; } }
+function demoSave(rows){ try { localStorage.setItem(DEMO_KEY, JSON.stringify(rows)); } catch(e){} }
+var api = {
+  submit: function(d){
+    if (live) return call(API, { method: "POST", body: JSON.stringify(d) });
+    var rows = demoLoad(), i = rows.findIndex(function(r){ return r.name === d.name; });
+    var row = Object.assign({ time: new Date().toISOString() }, d);
+    if (i >= 0) rows[i] = row; else rows.push(row);
+    demoSave(rows);
+    return Promise.resolve({ ok: true, updated: i >= 0 });
+  },
+  stats: function(key){
+    if (live) return call(API + "?action=stats&key=" + encodeURIComponent(key)).then(function(j){ return j.rows; });
+    return Promise.resolve(demoLoad());
+  }
+};
+
+// ---- views ----
+function show(view){
+  ["formView","thanksView","statsView"].forEach(function(v){ $(v).classList.toggle("hidden", v !== view); });
+  document.querySelector(".info").classList.toggle("hidden", view === "statsView");
+  document.querySelector(".links").classList.toggle("hidden", view === "statsView");
+  $("deadline").classList.toggle("hidden", view === "statsView");
+}
+
+// ---- form controls ----
+document.querySelectorAll("#attend button").forEach(function(b){
+  b.addEventListener("click", function(){
+    state.attend = b.dataset.v;
+    document.querySelectorAll("#attend button").forEach(function(x){ x.setAttribute("aria-pressed", String(x === b)); });
+    $("yesFields").classList.toggle("hidden", state.attend !== "yes");
+    $("err").textContent = "";
+  });
+});
+function renderSteppers(){
+  $("party").textContent = state.party;
+  var p = document.querySelector('[data-for="party"]');
+  p.children[0].disabled = state.party <= 1; p.children[2].disabled = state.party >= EVENT.maxParty;
+}
+document.querySelectorAll(".stepper button").forEach(function(b){
+  b.addEventListener("click", function(){
+    var k = b.parentNode.dataset.for; state[k] += Number(b.dataset.d); renderSteppers();
+  });
+});
+renderSteppers();
+
+$("rsvp").addEventListener("submit", function(e){
+  e.preventDefault();
+  var name = $("name").value.trim();
+  if (!name){ $("err").textContent = "Please enter your name"; $("name").focus(); return; }
+  if (!state.attend){ $("err").textContent = "Please let us know if you can join"; return; }
+  var yes = state.attend === "yes";
+  var d = {
+    name: name, attend: state.attend,
+    party: yes ? state.party : 0
+  };
+  $("submitBtn").disabled = true; $("submitBtn").textContent = "Sending…"; $("err").textContent = "";
+  api.submit(d).then(function(r){ thanks(d, r && r.updated); })
+    .catch(function(){ $("err").textContent = "Something went wrong. Please try again."; })
+    .then(function(){ $("submitBtn").disabled = false; $("submitBtn").textContent = "Send RSVP"; });
+});
+
+function thanks(d, updated){
+  var yes = d.attend === "yes";
+  $("thanksTitle").textContent = yes ? "See you there, " + d.name + "!" : "Thank you for letting us know, " + d.name;
+  $("thanksSub").textContent = (updated ? "Your reply has been updated. " : "We have received your reply. ") + (yes ? "See you at dinner on Jan 31 🔥" : "We will catch up another time!");
+  var rows = [["Attending", yes ? "Yes" : "No"]];
+  if (yes){ rows.push(["Guests", String(d.party)]); }
+  var box = $("summary"); box.textContent = "";
+  rows.forEach(function(r){ var div = document.createElement("div"), a = document.createElement("span"), b = document.createElement("span"); a.textContent = r[0]; b.textContent = r[1]; div.append(a, b); box.append(div); });
+  show("thanksView"); window.scrollTo({ top: 0, behavior: "smooth" });
+}
+$("editBtn").addEventListener("click", function(){ show("formView"); });
+
+// ---- stats ----
+function loadStats(){
+  $("keyErr").textContent = "";
+  api.stats(statsKey).then(function(rows){
+    $("keyForm").classList.add("hidden"); $("statsBody").classList.remove("hidden");
+    renderStats(rows || []);
+  }).catch(function(err){
+    $("keyForm").classList.remove("hidden"); $("statsBody").classList.add("hidden");
+    $("keyErr").textContent = (err && err.message && err.message.indexOf("密碼") >= 0) ? "Incorrect password" : "Could not load. Please try again.";
+  });
+}
+function personRow(r, yes){
+  var el = document.createElement("div"); el.className = "person";
+  var top = document.createElement("div"); top.className = "top";
+  var n = document.createElement("strong"); n.textContent = r.name;
+  var c = document.createElement("span"); c.textContent = yes ? r.party + (r.party == 1 ? " guest" : " guests") : "";
+  top.append(n, c); el.append(top);
+  return el;
+}
+function renderStats(rows){
+  var yes = rows.filter(function(r){ return r.attend === "yes"; });
+  var no = rows.filter(function(r){ return r.attend !== "yes"; });
+  var people = yes.reduce(function(s, r){ return s + Number(r.party || 0); }, 0);
+  $("sPeople").textContent = people;
+  $("sGroups").textContent = yes.length; $("sNo").textContent = no.length;
+  $("yesCount").textContent = yes.length + (yes.length == 1 ? " reply" : " replies"); $("noCount").textContent = String(no.length);
+  [["yesList", yes, true], ["noList", no, false]].forEach(function(x){
+    var box = $(x[0]); box.textContent = "";
+    if (!x[1].length){ var e = document.createElement("div"); e.className = "empty"; e.textContent = "None yet"; box.append(e); return; }
+    x[1].forEach(function(r){ box.append(personRow(r, x[2])); });
+  });
+  var t = new Date(); $("sUpdated").textContent = "Updated " + t.getHours() + ":" + String(t.getMinutes()).padStart(2, "0");
+}
+$("keyForm").addEventListener("submit", function(e){ e.preventDefault(); statsKey = $("key").value.trim(); loadStats(); });
+$("refreshBtn").addEventListener("click", loadStats);
+
+// ---- routing: ?page=stats ----
+function route(params){
+  if (params.page === "stats"){
+    show("statsView");
+    if (!live){ loadStats(); return; }
+    statsKey = params.key || "";
+    if (statsKey) loadStats(); else $("keyForm").classList.remove("hidden");
+  } else show("formView");
+}
+if (!live){
+  $("demoBar").classList.remove("hidden");
+  document.querySelectorAll("[data-go]").forEach(function(b){
+    b.addEventListener("click", function(){ route({ page: b.dataset.go }); window.scrollTo(0, 0); });
+  });
+}
+var p = {}; new URLSearchParams(location.search).forEach(function(v, k){ p[k] = v; });
+route(p);
+</script>
+</body>
+</html>
